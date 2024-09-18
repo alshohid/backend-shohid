@@ -59,6 +59,8 @@ model comments {
   users        users     @relation(fields: [userID], references: [id], onDelete: Restrict, onUpdate: Cascade)
   news_list    news_list @relation(fields: [postID], references: [id], onDelete: Restrict, onUpdate: Cascade)
   descriptions String    @db.VarChar(1000)
+  createdAt    DateTime  @default(now()) @db.Timestamp(0)
+  updatedAt    DateTime  @default(now()) @updatedAt @db.Timestamp(0)
 }
 
 model socials {
