@@ -1,9 +1,12 @@
+ 
+ 
+import PlainLayout from "@/components/master/Plain-Layout";
 
 
 export default function Home() {
   return (
-    <div>
-      main page 
-    </div>
+    <PlainLayout>
+      
+    </PlainLayout>
   );
 }
