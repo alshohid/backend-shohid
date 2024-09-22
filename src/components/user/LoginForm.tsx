@@ -15,9 +15,9 @@ const LoginForm = () => {
   };
 
   const formSubmit = async () => {
-    // API Call logic
+
     try {
-      setSubmit(true); // Disable button while submitting
+      setSubmit(true);
 
       const options = {
         method: "POST",
@@ -37,7 +37,7 @@ const LoginForm = () => {
 
       if (result.status === "success") {
         alert("Login successful!");
-        window.location.href = "/"; // Redirect to home page on success
+        window.location.href = "/";
       } else {
         alert(result.message || "Invalid Login Request");
       }
@@ -89,13 +89,13 @@ const LoginForm = () => {
         {/* Sign Up and Forget Password Links */}
         <div className="flex justify-between mt-4 text-sm">
           <Link
-            href="/user/registration"
+            href="/registration"
             className="text-blue-600 hover:underline dark:text-blue-400"
           >
             Sign Up
           </Link>
           <Link
-            href="/user/emailVerify"
+            href="/emailVerify"
             className="text-blue-600 hover:underline dark:text-blue-400"
           >
             Forget Password

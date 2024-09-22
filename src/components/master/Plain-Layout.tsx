@@ -15,7 +15,6 @@ async function getData() {
 
 const PlainLayout = async (props: any) => {
   const data = await getData();
-  console.log("data",data);
   const cookieStore = cookies();
   const token = cookieStore.get("token");
   let isLogin = false;
