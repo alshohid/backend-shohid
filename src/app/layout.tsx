@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import PlainLayout from "@/components/master/Plain-Layout";
+import { cookies } from "next/headers";
+import SideNavbar from "@/components/master/SideNavbar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -23,12 +26,27 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+    const cookieStore = cookies();
+    const token = cookieStore.get("token");
+    let isLogin = false;
+    isLogin = typeof token !== "undefined";
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <PlainLayout>
+          {isLogin ? (
+            <div className="flex ">
+              <div>
+                <SideNavbar />
+              </div>
+              {children}
+            </div>
+          ) : (
+            <> {children}</>
+          )}
+        </PlainLayout>
       </body>
     </html>
   );

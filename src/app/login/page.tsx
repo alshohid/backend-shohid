@@ -4,8 +4,8 @@ import React from 'react'
 
 export default function LoginPage() {
   return (
-    <PlainLayout>
+    <div className='w-full'>
         <LoginForm/>
-    </PlainLayout>
+    </div>
   )
 }

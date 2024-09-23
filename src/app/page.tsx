@@ -12,11 +12,11 @@ import Hero from "@/components/news/Hero";
 export default async function Home() {
   const data = await getData()
   return (
-    <PlainLayout>
+    <>
       <div className="w-full">
         <Hero data={data}/>
 
       </div>
-    </PlainLayout>
+    </>
   );
 }

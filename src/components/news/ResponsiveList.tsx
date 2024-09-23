@@ -3,8 +3,7 @@ import ListSearch from "./ListSearch";
 
 export default function ResponsiveList({
   latestNewsData,
-  setSearchTerm,
-  searchTerm,
+   
 }: any) {
   
 

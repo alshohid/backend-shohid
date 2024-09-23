@@ -4,10 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import ImageAvater from "@/ui/ImageAvater";
 import { useRouter } from "next/navigation";
+import UserDropDown from "./UserDropDown";
+
 const AppNavBar = (props: any) => {
-  const router = useRouter()
+  const router = useRouter();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   return (
     <nav className="bg-red-300 border-gray-200">
@@ -17,11 +20,10 @@ const AppNavBar = (props: any) => {
         </Link>
 
         <div className="flex md:order-2">
-          {/* Mobile Search Icon (only on mobile) */}
           <button
             type="button"
             onClick={() => setShowMobileSearch(!showMobileSearch)}
-            className="md:hidden text-gray-500   rounded-lg text-sm p-2.5 me-1"
+            className="md:hidden text-gray-500 rounded-lg text-sm p-2.5 me-1"
           >
             <svg
               className="w-5 h-5"
@@ -41,7 +43,7 @@ const AppNavBar = (props: any) => {
             <span className="sr-only">Search</span>
           </button>
 
-          {/* Mobile Search Input (Visible when showMobileSearch is true) */}
+          {/* Mobile Search Input */}
           {showMobileSearch && (
             <div className="absolute inset-x-0 top-16 w-full bg-white dark:bg-gray-900 p-4 md:hidden">
               <input
@@ -52,31 +54,40 @@ const AppNavBar = (props: any) => {
             </div>
           )}
 
-          {/* Desktop Search Input (Always visible on larger screens) */}
-          <div className="hidden md:block ">
+          {/* Desktop Search Input */}
+          <div className="hidden md:block">
             <input
               type="text"
-              className="block w-full p-2 text-sm text-gray-900 border border-gray-300 focus:outline-none rounded-lg bg-gray-50 dark:bg-gray-700  dark:placeholder-gray-400 dark:text-white"
+              className="block w-full p-2 text-sm text-gray-900 border border-gray-300 focus:outline-none rounded-lg bg-gray-50 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white"
               placeholder="Search..."
             />
           </div>
+
           {props.isLogin ? (
-            <div className="mx-2">
-              <ImageAvater image={"/images/profile.png"} />
+            <div
+              className="relative cursor-pointer"
+              onMouseEnter={() => setShowDropdown(true)}
+              onMouseLeave={() => setShowDropdown(false)}
+            >
+              <div className="flex items-center mx-2">
+                <ImageAvater image={"/images/profile.png"} />
+              </div>
+
+              <UserDropDown data={props.data.profileDetails} showDropdown={showDropdown} />
             </div>
           ) : (
             <div className="ml-4">
               <button
                 type="button"
                 onClick={() => router.replace("/login")}
-                className="text-gray-900  border border-gray-500 focus:outline-none font-small md-font-medium rounded-sm text-sm  px-3 md-px-5 py-2 md-py-2.5 text-center me-2 mb-2"
+                className="text-gray-900 border border-gray-500 focus:outline-none hover:bg-red-500 font-small md-font-medium rounded-sm text-sm px-3 md-px-5 py-2 md-py-2.5 text-center me-2 mb-2"
               >
                 Login
               </button>
             </div>
           )}
 
-          {/* Hamburger Icon (for mobile menu) */}
+          {/* Hamburger Icon for mobile menu */}
           <button
             onClick={() => setShowMobileMenu(!showMobileMenu)}
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -100,7 +111,7 @@ const AppNavBar = (props: any) => {
           </button>
         </div>
 
-        {/* Mobile Menu (Visible when showMobileMenu is true) */}
+        {/* Mobile Menu */}
         {showMobileMenu && (
           <div className="absolute inset-x-0 top-16 w-full bg-white dark:bg-gray-900 p-4 md:hidden">
             <ul className="flex flex-col space-y-4">

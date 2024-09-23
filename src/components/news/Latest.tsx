@@ -3,7 +3,7 @@ import ResponsiveList from "./ResponsiveList";
 
 async function getData() {
     let latestNews = (await(
-      await fetch(`${process.env.HOST}/api/user/news/type?type=latest`)
+    await fetch(`${process.env.HOST}/api/user/news/type?type=latest`)
     ).json()).data;
     return { latestNews: latestNews };
     }
