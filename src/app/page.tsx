@@ -5,7 +5,7 @@ import Hero from "@/components/news/Hero";
 
  async function getData() {
   let slider =( await(
-    (await fetch(`${process.env.HOST}/api/user/news/type?type=slider`)).json())).data
+    (await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/user/news/type?type=slider`)).json())).data
     return {slider:slider}
 
  }

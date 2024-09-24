@@ -73,7 +73,10 @@ const AppNavBar = (props: any) => {
                 <ImageAvater image={"/images/profile.png"} />
               </div>
 
-              <UserDropDown data={props.data.profileDetails} showDropdown={showDropdown} />
+              <UserDropDown
+                data={props.data.profileDetails}
+                showDropdown={showDropdown}
+              />
             </div>
           ) : (
             <div className="ml-4">
@@ -115,10 +118,18 @@ const AppNavBar = (props: any) => {
         {showMobileMenu && (
           <div className="absolute inset-x-0 top-16 w-full bg-white dark:bg-gray-900 p-4 md:hidden">
             <ul className="flex flex-col space-y-4">
+              <li>
+                <Link className="block py-2 px-3 text-black" href={"/"}>
+                  Home
+                </Link>
+              </li>
               {props.data.categories.map((item: any, index: any) => {
                 return (
                   <li key={index}>
-                    <Link href="#" className="block py-2 px-3 text-black">
+                    <Link
+                      href={`/category?id=${item.id}`}
+                      className="block py-2 px-3 text-black"
+                    >
                       {item?.name}
                     </Link>
                   </li>
@@ -134,10 +145,18 @@ const AppNavBar = (props: any) => {
           id="navbar-search"
         >
           <ul className="flex space-x-8 rtl:space-x-reverse">
+            <li>
+              <Link className="block py-2 px-3 text-black" href={"/"}>
+                Home
+              </Link>
+            </li>
             {props.data.categories.map((item: any, index: any) => {
               return (
                 <li key={index}>
-                  <Link href="#" className="block py-2 px-3 text-black">
+                  <Link
+                    href={`/category?id=${item.id}`}
+                    className="block py-2 px-3 text-black"
+                  >
                     {item?.name}
                   </Link>
                 </li>

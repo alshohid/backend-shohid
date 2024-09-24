@@ -1,33 +1,50 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { VerifyToken } from './utill/jwtTokenhelper';
- 
-export async function middleware(req:NextRequest) {
+import { NextRequest, NextResponse } from "next/server";
+import { VerifyToken } from "./utill/jwtTokenhelper";
 
-    if (req.nextUrl.pathname.startsWith("/api/dashboard")) {
-        try {
-            let token = req.cookies.get('token');
-            let payload = await VerifyToken(token?.value as string );
+export async function middleware(req: NextRequest) {
+  // Handle API calls to /api/dashboard
+  if (req.nextUrl.pathname.startsWith("/api/dashboard")) {
+    const token = req.cookies.get("token")?.value;
 
-
-            const requestHeader=new Headers(req.headers);
-            requestHeader.set('email',payload.email as string);
-            requestHeader.set('id',payload.id as any)
-
-
-            return NextResponse.next({
-                request:{headers:requestHeader}
-            });
-
-        }catch (e) {
-            return  NextResponse.json({status:"fail",data:"unauthorized"}, {status:401})
-        }
+    if (!token) {
+      // Return 401 if token is missing
+      return NextResponse.json(
+        { status: "fail", message: "Unauthorized: Token missing" },
+        { status: 401 }
+      );
     }
 
+    try {
+      // Verify token and extract payload
+      const payload = await VerifyToken(token);
 
+      if (!payload || !payload.email || !payload.id) {
+        throw new Error("Invalid token payload");
+      }
 
-    if (req.nextUrl.pathname.startsWith("/api/user")) {
-        return NextResponse.next();
+      // Create a copy of headers and set email and id
+      const requestHeaders = new Headers(req.headers);
+      requestHeaders.set("email", payload.email.toString());
+      requestHeaders.set("id", payload.id.toString());
+
+      // Pass the modified headers to the next response
+      return NextResponse.next({
+        request: { headers: requestHeaders },
+      });
+    } catch (error) {
+      // Handle token verification failure
+      return NextResponse.json(
+        { status: "fail", message: "Unauthorized: Invalid or expired token" },
+        { status: 401 }
+      );
     }
+  }
 
+  // Allow all requests to /api/user
+  if (req.nextUrl.pathname.startsWith("/api/user")) {
+    return NextResponse.next();
+  }
 
+  // Fallback for all other routes
+  return NextResponse.next();
 }

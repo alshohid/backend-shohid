@@ -13,14 +13,14 @@ async function getData(cookies: any) {
   };
 
   let socials = (
-    await (await fetch(`${process.env.HOST}/api/user/socials`)).json()
+    await (await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/user/socials`)).json()
   )["data"];
   let categories = (
-    await (await fetch(`${process.env.HOST}/api/user/categories`)).json()
+    await (await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/user/categories`)).json()
   )["data"];
   let profileDetails = (
     await (
-      await fetch(`${process.env.HOST}/api/dashboard/profile/details`, option)
+      await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/dashboard/profile/details`, option)
     ).json()
   ).data;
   return {

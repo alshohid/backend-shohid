@@ -15,7 +15,7 @@ async function getData(cookies: any) {
 
   let profileDetails = (
     await (
-      await fetch(`${process.env.HOST}/api/dashboard/profile/details`, option)
+      await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/dashboard/profile/details`, option)
     ).json()
   ).data;
   return {

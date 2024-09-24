@@ -3,7 +3,7 @@ import React from "react";
 
 export default function SideNavbar() {
   return (
-    <div className="h-full w-64 bg-red-200 shadow-md">
+    <div className="h-screen w-64 bg-red-200 shadow-md">
       <nav className="flex flex-col p-4 space-y-4">
         <Link
           href="/dashboard"
