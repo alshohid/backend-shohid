@@ -38,7 +38,7 @@ export default function RootLayout({
         <PlainLayout>
           {isLogin ? (
             <div className="flex ">
-              <div>
+              <div >
                 <SideNavbar />
               </div>
               {children}

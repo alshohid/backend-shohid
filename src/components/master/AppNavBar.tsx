@@ -5,6 +5,7 @@ import Image from "next/image";
 import ImageAvater from "@/ui/ImageAvater";
 import { useRouter } from "next/navigation";
 import UserDropDown from "./UserDropDown";
+import SearchForm from "../ui/SearchForm";
 
 const AppNavBar = (props: any) => {
   const router = useRouter();
@@ -29,11 +30,11 @@ const AppNavBar = (props: any) => {
 
   return (
     <nav
-      className={`w-full bg-red-300 border-gray-200  shadow-md transition-all duration-300 ${
+      className={` w-full bg-red-300 border-gray-200  shadow-md transition-all duration-300 ${
         isSticky ? "sticky top-0 left-0 z-50  bg-red-600" : "relative"
       } `}
     >
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <div className=" flex flex-wrap items-center justify-between mx-auto p-4">
         <Link href="/">
           <Image src="/images/logo.svg" alt="alt" width={150} height={50} />
         </Link>
@@ -77,7 +78,8 @@ const AppNavBar = (props: any) => {
             </div>
           )}
           <div className="hidden  md:block">
-            <input
+            <SearchForm keyword={keyword} setKeyword={setKeyword}/>
+            {/* <input
               type="text"
               value={keyword}
               className="block w-full p-2 text-sm text-gray-900 border border-gray-300 focus:outline-none rounded-lg bg-gray-50 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white"
@@ -88,7 +90,7 @@ const AppNavBar = (props: any) => {
               href={keyword?.length > 0 ? `/search?keywords=${keyword}` : `/`}
             >
               Search
-            </Link>
+            </Link> */}
           </div>
           {props.isLogin ? (
             <div
