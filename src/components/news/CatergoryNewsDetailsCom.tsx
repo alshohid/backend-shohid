@@ -6,8 +6,9 @@ import AllPostCommentContainer from "../comments/AllPostCommentContainer";
 export default function CatergoryNewsDetailsCom({
   categoryDetailsData,
   newsCommentData,
+  postId,
+  onCommentSubmit,
 }: any) {
-
   return (
     <div className="container mx-auto p-4">
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
@@ -32,8 +33,12 @@ export default function CatergoryNewsDetailsCom({
           <p className="text-gray-600">{categoryDetailsData[0]?.long_des}</p>
         </div>
       </div>
-      <div >
-        <AllPostCommentContainer newsCommentData={newsCommentData} />
+      <div>
+        <AllPostCommentContainer
+          newsCommentData={newsCommentData}
+          postId={postId}
+          onCommentSubmit={onCommentSubmit}
+        />
       </div>
     </div>
   );

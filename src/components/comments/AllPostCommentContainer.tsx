@@ -1,29 +1,36 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AllCommentList from "./AllCommentList";
 import NewsCreateFrom from "./NewsCreateFrom";
 
-const AllPostCommentContainer = ({ newsCommentData }: any) => {
+const AllPostCommentContainer = ({
+  newsCommentData,
+  postId,
+  onCommentSubmit,
+}: any) => {
   const [activeTab, setActiveTab] = useState("Comment");
-  const postID = newsCommentData?.length > 0 ? newsCommentData[0]?.postID : null;
+
   const openPage = (tabName: string) => {
     setActiveTab(tabName);
   };
-
   return (
     <div className="h-screen w-full flex flex-col mt-4">
       <div className="flex">
         <button
           className={`tablink ${
-            activeTab === "Comment" ? "border " : "bg-gray-600"
-          } text-blue-950 p-4 w-1/4 rounded-l-sm `}
+            activeTab === "Comment"
+              ? " bg-gray-600 text-white"
+              : "border text-blue-950"
+          }  p-4 w-1/4 rounded-l-sm `}
           onClick={() => openPage("Comment")}
         >
           Comment
         </button>
         <button
           className={`tablink ${
-            activeTab === "Create" ? "border" : "bg-gray-600"
+            activeTab === "Create"
+              ? "bg-gray-600 text-white"
+              : "border  text-blue-950 "
           } text-blue-950 p-4 w-1/4 rounded-r-sm`}
           onClick={() => openPage("Create")}
         >
@@ -31,7 +38,7 @@ const AllPostCommentContainer = ({ newsCommentData }: any) => {
         </button>
       </div>
 
-      <div className="tabcontent h-full flex-grow py-4">
+      <div className="tabcontent h-[400px] md:h-[500px] overflow-y-auto flex-grow py-4">
         {activeTab === "Comment" && (
           <>
             {newsCommentData?.length > 0 ? (
@@ -41,11 +48,15 @@ const AllPostCommentContainer = ({ newsCommentData }: any) => {
                 })}
               </>
             ) : (
-              <div className="text-center">No Comments Yet</div>
+              <div className="text-center text-[25px] font-semibold">
+                No Comments Yet
+              </div>
             )}
           </>
         )}
-        {activeTab === "Create" && <NewsCreateFrom postId={postID} />}
+        {activeTab === "Create" && (
+          <NewsCreateFrom postId={postId} onCommentSubmit={onCommentSubmit} />
+        )}
       </div>
     </div>
   );

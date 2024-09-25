@@ -1,4 +1,5 @@
-"use client"
+"use client";
+
 import Link from "next/link";
 import React from "react";
 
@@ -7,12 +8,13 @@ interface CardProps {
   title: string;
   description: string;
   link: string;
+  isLogin?: boolean;
 }
 
-const Card= ({ imageUrl, title, description, link }:CardProps) => {
+const Card = ({ imageUrl, title, description, link, isLogin }: CardProps) => {
   return (
     <Link
-      href={`/category/${link}`}
+      href={isLogin ? `/category/${link}` : `/login`}
       className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
     >
       <img

@@ -1,35 +1,33 @@
 "use client";
-import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import Card from "../ui/Card";
+import React, { useEffect, useState } from "react";
 import Loader from "../ui/Loader";
+import Card from "../ui/Card";
 
-export default function CategoryByNews({ isLogin }:any) {
+export default function GlobalSearch() {
   const router = useSearchParams();
-  const id = router.get("id");
-  const [categorisByIdData, setCategorisById] = useState([]);
+  const keywords = router.get("keywords");
+  const [searchByData, setSearchByData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  async function getData(id: any) {
+  async function getData(keywords: any) {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_HOST}/api/user/news/category?catID=${id}`
+        `${process.env.NEXT_PUBLIC_HOST}/api/user/news/search?keywords=${keywords}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
       const data = await response.json();
-      setCategorisById(data.data);
+      setSearchByData(data.data);
     } catch (error: any) {
     } finally {
       setLoading(false);
     }
   }
-
   useEffect(() => {
-    getData(id);
-  }, [id]);
-
+    getData(keywords);
+  }, [keywords]);
   return (
     <div className="container">
       {loading ? (
@@ -43,8 +41,8 @@ export default function CategoryByNews({ isLogin }:any) {
         </div>
       ) : (
         <div className="grid md:grid-cols-3 lg:grid-cols-4 grid-cols-1 gap-3">
-          {categorisByIdData.length > 0 ? (
-            categorisByIdData.map((item: any, index: any) => {
+          {searchByData.length > 0 ? (
+            searchByData.map((item: any, index: any) => {
               return (
                 <Card
                   key={index}
@@ -52,12 +50,11 @@ export default function CategoryByNews({ isLogin }:any) {
                   title={item.title}
                   description={item.short_des}
                   link={item.id}
-                  isLogin={isLogin}
                 />
               );
             })
           ) : (
-            <h1 className="">No Data Records</h1>
+            <h1 className="text-center font-semibold text-[25px]">No Data Records</h1>
           )}
         </div>
       )}

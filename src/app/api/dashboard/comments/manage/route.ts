@@ -8,7 +8,7 @@ export async function GET(req: Request, res: Response) {
     const user_Id = parseInt(headerlist.get("id") as any);
     const prisma = new PrismaClient();
     const result = await prisma.comments.findMany({
-      where: { id: user_Id },
+      where: { userID: user_Id },
       include:{
         news_list:{
           select:{

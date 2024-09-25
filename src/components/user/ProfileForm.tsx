@@ -31,12 +31,9 @@ const ProfileForm = ({ profileData }: any) => {
         },
         body: JSON.stringify(data),
       };
-
       const res = await fetch("api/dashboard/profile/update", options);
       const result = await res.json();
-
       setSubmit(false);
-
       setData({
         firstName: "",
         lastName: "",
@@ -44,25 +41,22 @@ const ProfileForm = ({ profileData }: any) => {
         mobile: "",
         password: "",
       });
-
       if (result.status === "success") {
-        alert("Registration successful!");
-        // window.location.href = "/login";
+        alert("Profile update successful!");
+        window.location.href = "/profile";
       } else {
         alert(result.message || "Registration failed");
       }
     } catch (error) {
-      setSubmit(false); // Re-enable the button on error
+      setSubmit(false);
       alert("An error occurred during registration. Please try again.");
     }
   };
-
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
         <h2 className="text-2xl font-bold text-center mb-8">Update Profile </h2>
         <form onSubmit={formSubmit}>
-           
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
               First Name
@@ -77,8 +71,6 @@ const ProfileForm = ({ profileData }: any) => {
               required
             />
           </div>
-
-          {/* Last Name */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
               Last Name
@@ -93,8 +85,6 @@ const ProfileForm = ({ profileData }: any) => {
               required
             />
           </div>
-
-          {/* Email */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
               Email
@@ -109,8 +99,6 @@ const ProfileForm = ({ profileData }: any) => {
               required
             />
           </div>
-
-          {/* Mobile */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
               Mobile
@@ -125,8 +113,6 @@ const ProfileForm = ({ profileData }: any) => {
               required
             />
           </div>
-
-          {/* Password */}
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700">
               Password
@@ -141,7 +127,6 @@ const ProfileForm = ({ profileData }: any) => {
               required
             />
           </div>
-
           <button
             type="submit"
             disabled={submit}

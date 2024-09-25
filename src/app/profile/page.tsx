@@ -1,6 +1,4 @@
 
-import PlainLayout from "@/components/master/Plain-Layout";
-import SideNavbar from "@/components/master/SideNavbar";
 import ProfileForm from "@/components/user/ProfileForm";
 import { cookies } from "next/headers";
 import React from "react";

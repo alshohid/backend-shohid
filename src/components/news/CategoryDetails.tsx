@@ -8,6 +8,22 @@ export default function CategoryDetails() {
     const [categoryDetailsData, setCategoryDetailsData] = useState([]);
     const [newsCommentData, setNewsCommentData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [postID, setPostID] = useState(0);
+
+  async function refetchComments(id: any) {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_HOST}/api/dashboard/comments/newsComment?postID=${id}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch comments");
+      }
+      const data = await response.json();
+      setNewsCommentData(data.data);
+    } catch (error) {
+      console.error("Error fetching comments", error);
+    }
+  }
 
 
     async function fetchData(id: any) {
@@ -38,6 +54,7 @@ export default function CategoryDetails() {
     useEffect(() => {
       if (id) {
         fetchData(id);
+        setPostID(id as any);
       }
     }, [id]);
   return (
@@ -45,6 +62,8 @@ export default function CategoryDetails() {
       <CatergoryNewsDetailsCom
         categoryDetailsData={categoryDetailsData}
         newsCommentData={newsCommentData}
+        postId={postID}
+        onCommentSubmit={() => refetchComments(id)}
       />
     </div>
   );

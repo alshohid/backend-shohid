@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ImageAvater from "@/ui/ImageAvater";
@@ -11,14 +11,32 @@ const AppNavBar = (props: any) => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
+  const [keyword, setKeyword] = useState("");
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setIsSticky(true);
+      } else {
+        setIsSticky(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <nav className="bg-red-300 border-gray-200">
+    <nav
+      className={`w-full bg-red-300 border-gray-200  shadow-md transition-all duration-300 ${
+        isSticky ? "sticky top-0 left-0 z-50  bg-red-600" : "relative"
+      } `}
+    >
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link href="/">
           <Image src="/images/logo.svg" alt="alt" width={150} height={50} />
         </Link>
-
         <div className="flex md:order-2">
           <button
             type="button"
@@ -42,27 +60,36 @@ const AppNavBar = (props: any) => {
             </svg>
             <span className="sr-only">Search</span>
           </button>
-
-          {/* Mobile Search Input */}
           {showMobileSearch && (
             <div className="absolute inset-x-0 top-16 w-full bg-white dark:bg-gray-900 p-4 md:hidden">
               <input
                 type="text"
+                value={keyword}
                 className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                 placeholder="Search..."
+                onChange={(e: any) => setKeyword(e.target.value)}
               />
+              <Link
+                href={keyword?.length > 0 ? `/search?keywords=${keyword}` : `/`}
+              >
+                Search
+              </Link>
             </div>
           )}
-
-          {/* Desktop Search Input */}
-          <div className="hidden md:block">
+          <div className="hidden  md:block">
             <input
               type="text"
+              value={keyword}
               className="block w-full p-2 text-sm text-gray-900 border border-gray-300 focus:outline-none rounded-lg bg-gray-50 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white"
               placeholder="Search..."
+              onChange={(e: any) => setKeyword(e.target.value)}
             />
+            <Link
+              href={keyword?.length > 0 ? `/search?keywords=${keyword}` : `/`}
+            >
+              Search
+            </Link>
           </div>
-
           {props.isLogin ? (
             <div
               className="relative cursor-pointer"
@@ -72,7 +99,6 @@ const AppNavBar = (props: any) => {
               <div className="flex items-center mx-2">
                 <ImageAvater image={"/images/profile.png"} />
               </div>
-
               <UserDropDown
                 data={props.data.profileDetails}
                 showDropdown={showDropdown}
@@ -89,8 +115,6 @@ const AppNavBar = (props: any) => {
               </button>
             </div>
           )}
-
-          {/* Hamburger Icon for mobile menu */}
           <button
             onClick={() => setShowMobileMenu(!showMobileMenu)}
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -113,8 +137,6 @@ const AppNavBar = (props: any) => {
             <span className="sr-only">Open main menu</span>
           </button>
         </div>
-
-        {/* Mobile Menu */}
         {showMobileMenu && (
           <div className="absolute inset-x-0 top-16 w-full bg-white dark:bg-gray-900 p-4 md:hidden">
             <ul className="flex flex-col space-y-4">
