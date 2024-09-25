@@ -79,18 +79,6 @@ const AppNavBar = (props: any) => {
           )}
           <div className="hidden  md:block">
             <SearchForm keyword={keyword} setKeyword={setKeyword}/>
-            {/* <input
-              type="text"
-              value={keyword}
-              className="block w-full p-2 text-sm text-gray-900 border border-gray-300 focus:outline-none rounded-lg bg-gray-50 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white"
-              placeholder="Search..."
-              onChange={(e: any) => setKeyword(e.target.value)}
-            />
-            <Link
-              href={keyword?.length > 0 ? `/search?keywords=${keyword}` : `/`}
-            >
-              Search
-            </Link> */}
           </div>
           {props.isLogin ? (
             <div
