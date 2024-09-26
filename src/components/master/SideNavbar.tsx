@@ -64,7 +64,7 @@ export default function SideNavbar() {
             </span>
           </Link>
           <Link
-            href="#"
+            href="/newsPost"
             className={`flex items-center text-gray-700 hover:bg-green-500 hover:text-white p-3 rounded-md transition-colors duration-300 ease-in-out active:bg-green-600 active:text-white ${
               collapsed ? "justify-center" : ""
             }`}
