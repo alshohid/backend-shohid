@@ -23,11 +23,11 @@ const OwnCommentList: React.FC<CommentListProps> = ({ comments }) => {
   const onDelete = async (id: number) => {
     try {
       const options = {
-        method: "DELETE", // Fixed method (uppercase "DELETE")
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id }), // No need to parse id again
+        body: JSON.stringify({ id }),
       };
 
       const response = await fetch(

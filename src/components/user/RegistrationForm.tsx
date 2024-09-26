@@ -34,7 +34,10 @@ const RegistrationForm = () => {
         },
         body: JSON.stringify(data),
       };
-      const res = await fetch("/api/user/registration", options);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_HOST}/api/user/registration`,
+        options
+      );
       const result = await res.json();
       setSubmit(false);
       setData({

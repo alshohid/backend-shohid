@@ -25,7 +25,10 @@ const LoginForm = () => {
         },
         body: JSON.stringify(data),
       };
-      const res = await fetch("/api/user/login", options);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_HOST}/api/user/login`,
+        options
+      );
       const result = await res.json();
       setSubmit(false);
       if (result.status === "success") {
@@ -36,7 +39,7 @@ const LoginForm = () => {
         alert(result.message || "Invalid Login Request");
       }
     } catch (error) {
-      setSubmit(false); // Re-enable the button on error
+      setSubmit(false);
       alert("An error occurred during login. Please try again.");
     }
   };

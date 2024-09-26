@@ -38,7 +38,10 @@ const ProfileForm = ({ profileData }: any) => {
         },
         body: JSON.stringify(data),
       };
-      const res = await fetch("api/dashboard/profile/update", options);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_HOST}/api/dashboard/profile/update`,
+        options
+      );
       const result = await res.json();
       setSubmit(false);
       setData({

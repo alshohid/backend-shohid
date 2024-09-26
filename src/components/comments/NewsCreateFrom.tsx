@@ -32,7 +32,10 @@ const NewsCreateForm = ({ postId, onCommentSubmit }: any) => {
         },
         body: JSON.stringify(data),
       };
-      const res = await fetch("/api/dashboard/comments/manage", options);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_HOST}/api/dashboard/comments/manage`,
+        options
+      );
       const result = await res.json();
       setSubmit(false);
       if (result.status === "success") {
