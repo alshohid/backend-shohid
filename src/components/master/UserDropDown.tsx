@@ -13,11 +13,29 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
+export default function UserDropDown({ data, showDropdown }: any) {
+  const router = useRouter();
 
-export default function UserDropDown({
- data, showDropdown,
-}: any) {
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/api/user/login", {
+        method: "GET",
+      });
+
+      if (response.ok) {
+        router.push("/");
+        router.refresh()
+        console.log('heell')
+
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
 
   return (
     <DropdownMenu open={showDropdown}>
@@ -26,7 +44,7 @@ export default function UserDropDown({
       </DropdownMenuTrigger>
       <DropdownMenuContent className="md:w-64 w-56">
         <DropdownMenuLabel>
-          {data?.firstName + " " + data.lastName}
+          {data?.firstName + " " + data?.lastName}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
@@ -66,11 +84,9 @@ export default function UserDropDown({
             <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuItem asChild className="cursor-pointer">
-          <Link href={"/api/user/login"}>
-            Log out
-            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-          </Link>
+        <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
+          Log out
+          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

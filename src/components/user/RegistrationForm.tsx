@@ -1,7 +1,8 @@
 "use client"
 import React, { useState } from "react";
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 const RegistrationForm = () => {
+
   const [data, setData] = useState({
     firstName: "",
     lastName: "",
@@ -10,6 +11,7 @@ const RegistrationForm = () => {
     password: "",
   });
   const [submit, setSubmit] = useState(false);
+  const [showPassword,setShowPassword]=useState(false)
 
   const inputOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -20,25 +22,21 @@ const RegistrationForm = () => {
   };
 
   const formSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
 
     try {
-      setSubmit(true); // Disable the button while submitting
+      setSubmit(true);
 
       const options = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data), // Send the form data in JSON format
+        body: JSON.stringify(data),
       };
-
       const res = await fetch("/api/user/registration", options);
       const result = await res.json();
-
-      setSubmit(false); // Re-enable the button after API call
-
-      // Clear form data after submission
+      setSubmit(false);
       setData({
         firstName: "",
         lastName: "",
@@ -46,15 +44,14 @@ const RegistrationForm = () => {
         mobile: "",
         password: "",
       });
-
       if (result.status === "success") {
         alert("Registration successful!");
-        window.location.href = "/login"; // Redirect to home page on success
+        window.location.href = "/login";
       } else {
         alert(result.message || "Registration failed");
       }
     } catch (error) {
-      setSubmit(false); // Re-enable the button on error
+      setSubmit(false);
       alert("An error occurred during registration. Please try again.");
     }
   };
@@ -64,7 +61,6 @@ const RegistrationForm = () => {
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
         <h2 className="text-2xl font-bold text-center mb-8">Register</h2>
         <form onSubmit={formSubmit}>
-          {/* First Name */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
               First Name
@@ -79,8 +75,6 @@ const RegistrationForm = () => {
               required
             />
           </div>
-
-          {/* Last Name */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
               Last Name
@@ -95,8 +89,6 @@ const RegistrationForm = () => {
               required
             />
           </div>
-
-          {/* Email */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
               Email
@@ -111,8 +103,6 @@ const RegistrationForm = () => {
               required
             />
           </div>
-
-          {/* Mobile */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
               Mobile
@@ -127,26 +117,34 @@ const RegistrationForm = () => {
               required
             />
           </div>
-
-          {/* Password */}
-          <div className="mb-6">
+          <div className="mb-6 relative">
             <label className="block text-sm font-medium text-gray-700">
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               value={data.password}
               onChange={inputOnChange}
-              className="w-full p-2 mt-2 border border-gray-300 rounded-md focus:outline-none  "
+              className="w-full p-2 mt-2 border border-gray-300 rounded-md focus:outline-none "
               placeholder="Enter your password"
               required
             />
+            <div
+              className="absolute top-[28px] bottom-0 right-0 pr-3 flex items-center cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <FaEyeSlash className="text-gray-500 text-[25px]" />
+              ) : (
+                <FaEye className="text-gray-500 text-[25px]" />
+              )}
+            </div>
           </div>
 
           <button
             type="submit"
-            disabled={submit} // Disable button while submitting
+            disabled={submit}
             className={`w-full bg-blue-600 text-white font-medium py-2 rounded-md ${
               submit ? "opacity-50 cursor-not-allowed" : ""
             }`}

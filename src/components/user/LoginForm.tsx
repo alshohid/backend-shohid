@@ -2,10 +2,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import SubmitButton from "@/ui/FormSubmitButton";
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 const LoginForm = () => {
   const [data, setData] = useState({ email: "", password: "" });
   const [submit, setSubmit] = useState(false);
+  const [showPassword,setShowPassword]=useState(false);
 
   const inputOnChange = (name: string, value: string) => {
     setData((prevData) => ({
@@ -15,10 +16,8 @@ const LoginForm = () => {
   };
 
   const formSubmit = async () => {
-
     try {
       setSubmit(true);
-
       const options = {
         method: "POST",
         headers: {
@@ -26,17 +25,12 @@ const LoginForm = () => {
         },
         body: JSON.stringify(data),
       };
-
       const res = await fetch("/api/user/login", options);
       const result = await res.json();
-
-      setSubmit(false); // Re-enable the button after API call
-
-      // Clear form data after submission
-      setData({ email: "", password: "" });
-
+      setSubmit(false);
       if (result.status === "success") {
         alert("Login successful!");
+        setData({ email: "", password: "" });
         window.location.href = "/";
       } else {
         alert(result.message || "Invalid Login Request");
@@ -53,8 +47,6 @@ const LoginForm = () => {
         <h5 className="mb-5 text-2xl font-bold text-center text-gray-900 dark:text-white">
           User Login
         </h5>
-
-        {/* Email input field */}
         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
           User Email
         </label>
@@ -62,23 +54,34 @@ const LoginForm = () => {
           value={data.email}
           onChange={(e) => inputOnChange("email", e.target.value)}
           type="email"
+          placeholder="Enter email"
           className="w-full p-2 mb-4 text-sm border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           required
         />
-
-        {/* Password input field */}
-        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-          User Password
-        </label>
-        <input
-          value={data.password}
-          onChange={(e) => inputOnChange("password", e.target.value)}
-          type="password"
-          className="w-full p-2 mb-4 text-sm border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          required
-        />
-
-        {/* Submit button */}
+        <div className="mb-6 relative">
+          <label className="block text-sm font-medium text-gray-700">
+            Password
+          </label>
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            value={data.password}
+            onChange={(e) => inputOnChange("password", e.target.value)}
+            className="w-full p-2 text-sm mt-2 border border-gray-300 rounded-md focus:outline-none "
+            placeholder="Enter your password"
+            required
+          />
+          <div
+            className="absolute top-[28px] bottom-0 right-0 pr-3 flex items-center cursor-pointer"
+            onClick={()=>setShowPassword(!showPassword)}
+          >
+            {showPassword ? (
+              <FaEyeSlash className="text-gray-500 text-[25px]" />
+            ) : (
+              <FaEye className="text-gray-500 text-[25px]" />
+            )}
+          </div>
+        </div>
         <SubmitButton
           onClick={formSubmit}
           className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800"
@@ -86,7 +89,6 @@ const LoginForm = () => {
           text="Login"
         />
 
-        {/* Sign Up and Forget Password Links */}
         <div className="flex justify-between mt-4 text-sm">
           <Link
             href="/registration"
