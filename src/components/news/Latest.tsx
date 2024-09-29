@@ -9,7 +9,7 @@ async function getData() {
     }
     export default async function Latest() {
     const latestNewsData = await getData();
-
+console.log("latest data ", latestNewsData);
     return (
         <div>
         <ResponsiveList
