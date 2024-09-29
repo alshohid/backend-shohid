@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Card from "../ui/Card";
 import Loader from "../ui/Loader";
+import UserCard from "../ui/UserCard";
 
 export default function CategoryByNews({ isLogin }:any) {
   const router = useSearchParams();
@@ -31,7 +32,7 @@ export default function CategoryByNews({ isLogin }:any) {
   }, [id]);
 
   return (
-    <div className="container">
+    <div className="container p-4">
       {loading ? (
         <div className="w-full flex justify-between ">
           <div className="p-4">
@@ -43,10 +44,10 @@ export default function CategoryByNews({ isLogin }:any) {
         </div>
       ) : (
         <div className="grid md:grid-cols-3 lg:grid-cols-4 grid-cols-1 gap-3">
-          {categorisByIdData.length > 0 ? (
+          {categorisByIdData?.length > 0 ? (
             categorisByIdData.map((item: any, index: any) => {
               return (
-                <Card
+                <UserCard
                   key={index}
                   imageUrl={item.img1 ?? "/images/profile.png"}
                   title={item.title}
@@ -57,7 +58,7 @@ export default function CategoryByNews({ isLogin }:any) {
               );
             })
           ) : (
-            <h1 className="">No Data Records</h1>
+            <h1 className="text-center font-bold">No Data Records</h1>
           )}
         </div>
       )}
